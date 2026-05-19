@@ -55,10 +55,10 @@ Click **Submit** after checking them.
 
 ### Step 3: Get a Refresh Token
 
-Run this one-time script to authorize the app and get a long-lived refresh token:
+Save the script below as `get_refresh_token.py`, then run it once to authorize the app and get a long-lived refresh token:
 
 ```bash
-pip install dropbox
+uv run --with dropbox get_refresh_token.py
 ```
 
 ```python
