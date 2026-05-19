@@ -30,34 +30,58 @@ MCP server for Dropbox — full CRUD on files, folders, sharing, revisions, and 
 
 ## Authentication
 
-This server uses OAuth2 with a refresh token. You need:
+This server uses OAuth2 with a refresh token. You need three values: an App Key, App Secret, and a Refresh Token.
 
-1. A Dropbox app at [dropbox.com/developers/apps](https://dropbox.com/developers/apps)
-2. App Key and App Secret from your app dashboard
-3. A refresh token (see setup below)
+### Step 1: Create a Dropbox App
 
-### Getting a Refresh Token
+1. Go to [dropbox.com/developers/apps](https://www.dropbox.com/developers/apps)
+2. Click **Create app**
+3. Choose **Scoped access** → **Full Dropbox**
+4. Name it anything (e.g. `my-mcp-server`)
+5. On the app dashboard, copy your **App key** and **App secret**
+
+### Step 2: Set Permissions
+
+On the app dashboard → **Permissions** tab, enable:
+
+- `files.content.read`
+- `files.content.write`
+- `files.metadata.read`
+- `files.metadata.write`
+- `sharing.read`
+- `sharing.write`
+
+Click **Submit** after checking them.
+
+### Step 3: Get a Refresh Token
+
+Run this one-time script to authorize the app and get a long-lived refresh token:
 
 ```bash
-# Install the dropbox SDK
 pip install dropbox
+```
 
-# Run the auth flow
-python -c "
+```python
 import dropbox
 from dropbox import DropboxOAuth2FlowNoRedirect
 
-APP_KEY = 'your-app-key'
-APP_SECRET = 'your-app-secret'
+APP_KEY = "your-app-key"
+APP_SECRET = "your-app-secret"
 
-auth_flow = DropboxOAuth2FlowNoRedirect(APP_KEY, APP_SECRET, token_access_type='offline')
-auth_url = auth_flow.start()
-print('Go to:', auth_url)
-code = input('Enter auth code: ').strip()
+auth_flow = DropboxOAuth2FlowNoRedirect(
+    APP_KEY, APP_SECRET, token_access_type="offline"
+)
+
+print("Go to this URL and authorize the app:")
+print(auth_flow.start())
+print()
+
+code = input("Paste the authorization code here: ").strip()
 result = auth_flow.finish(code)
-print('Refresh token:', result.refresh_token)
-"
+print(f"\nDROPBOX_REFRESH_TOKEN={result.refresh_token}")
 ```
+
+The `token_access_type="offline"` is required — without it you get a short-lived access token that expires in 4 hours instead of a persistent refresh token.
 
 ## Configuration
 
