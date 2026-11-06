@@ -2,7 +2,7 @@
 
 import logging
 
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 
 from .client import DropboxClient
 from .tools.account import register_account_tools
@@ -18,8 +18,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def create_server() -> tuple[FastMCP, DropboxClient]:
-    server = FastMCP("mcp-dropbox")
+def create_server() -> tuple[MCPServer, DropboxClient]:
+    server = MCPServer("mcp-dropbox")
     client = DropboxClient()
 
     register_file_tools(server, client)
