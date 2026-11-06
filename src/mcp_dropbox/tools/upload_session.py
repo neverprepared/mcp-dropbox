@@ -6,7 +6,7 @@ import os
 
 import dropbox
 from dropbox.exceptions import ApiError
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 
 from ..client import DropboxClient
 
@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 CHUNK_SIZE = 150 * 1024 * 1024  # 150MB chunks
 
 
-def register_upload_session_tools(server: FastMCP, client: DropboxClient) -> None:
+def register_upload_session_tools(server: MCPServer, client: DropboxClient) -> None:
     dbx = client.dbx
 
     @server.tool()

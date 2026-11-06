@@ -5,14 +5,14 @@ import logging
 
 import dropbox
 from dropbox.exceptions import ApiError
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 
 from ..client import DropboxClient
 
 logger = logging.getLogger(__name__)
 
 
-def register_search_tools(server: FastMCP, client: DropboxClient) -> None:
+def register_search_tools(server: MCPServer, client: DropboxClient) -> None:
     dbx = client.dbx
 
     @server.tool()

@@ -4,14 +4,14 @@ import json
 import logging
 
 from dropbox.exceptions import ApiError
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 
 from ..client import DropboxClient
 
 logger = logging.getLogger(__name__)
 
 
-def register_transfer_tools(server: FastMCP, client: DropboxClient) -> None:
+def register_transfer_tools(server: MCPServer, client: DropboxClient) -> None:
     dbx = client.dbx
 
     @server.tool()
